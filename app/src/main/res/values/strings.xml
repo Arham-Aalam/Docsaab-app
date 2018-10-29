@@ -1,0 +1,16 @@
+<resources>
+    <string name="app_name">DocSaab App</string>
+    <string name="sync_account_type">docsshaab.arham.com</string>
+    <string name="contentAuthority">com.arham.docsshaab</string>
+    <string-array name="languages">
+        <item>English</item>
+        <item>Hindi</item>
+        <item>Gujrati</item>
+    </string-array>
+    <string-array name="languagesForCategories">
+        <item>English</item>
+        <item>Hindi</item>
+    </string-array>
+    <string name="Title">Docsaab Title</string>
+    <string name="shareTitle">Share App Using</string>
+</resources>

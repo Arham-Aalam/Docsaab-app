@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context=".activities.MainActivity"
+    >
+
+    <item android:id="@+id/menu_back"
+            android:icon="@drawable/home"
+            android:title="Home"
+        />
+
+    <item  android:id="@+id/bookmarks"
+        android:icon="@drawable/bookmark_opt"
+        android:title="Bookmarks"/>
+
+    <item  android:id="@+id/nav_Share"
+        android:icon="@drawable/share"
+        android:title="Share It"/>
+
+    <item  android:id="@+id/nav_about_us"
+            android:icon="@drawable/aboutus"
+            android:title="About Us"/>
+
+    <item  android:id="@+id/nav_contact_us"
+        android:icon="@drawable/contact"
+        android:title="Contact Us"/>
+
+
+</menu>
