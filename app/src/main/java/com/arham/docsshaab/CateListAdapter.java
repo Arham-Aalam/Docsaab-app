@@ -197,32 +197,45 @@ public class CateListAdapter extends RecyclerView.Adapter<CateListAdapter.ViewHo
             @Override
             public void onClick(View v) {
                 ContentValues contentValues = new ContentValues();
+                String bookData = "";
 
                 switch (global_lang) {
                     case "Hindi":
-                        contentValues.put(CategoryContract.CategoryEntry.COLUMN_CONTENT_BOOK, detail_hi);
+                        bookData = detail_hi;
                         break;
                     case "Gujrati":
-                        contentValues.put(CategoryContract.CategoryEntry.COLUMN_CONTENT_BOOK, detail_gujj);
+                        bookData = detail_gujj;
                         break;
                     default:
-                        contentValues.put(CategoryContract.CategoryEntry.COLUMN_CONTENT_BOOK, detail_en);
+                        bookData = detail_en;
                 }
 
-                try {
-                    mcontentResolver.insert(CategoryContract.CategoryEntry.CONTENT_URI_3, contentValues);
-                } catch (Exception ex) {
-                    System.out.println("SQLexception");
-                    ex.printStackTrace();
-                }
-                Toast.makeText(mcontext, "Item is BookMarked", Toast.LENGTH_SHORT).show();
+                contentValues.put(CategoryContract.CategoryEntry.COLUMN_CONTENT_BOOK, bookData);
+
                 if(holder.bookmarked == false) {
+                    /** inserting bookmarked data**/
+                    try {
+                        mcontentResolver.insert(CategoryContract.CategoryEntry.CONTENT_URI_3, contentValues);
+                    } catch (Exception ex) {
+                        System.out.println("SQLexception");
+                        ex.printStackTrace();
+                    }
                     holder.bookmarkOption.setImageResource(R.drawable.ic_bookmark_des);
                     holder.bookmarked = true;
+                    Toast.makeText(mcontext, "Item is BookMarked", Toast.LENGTH_SHORT).show();
                 }
                 else {
+                    try {
+                        mcontentResolver.delete(CategoryContract.CategoryEntry.CONTENT_URI_3,
+                                CategoryContract.CategoryEntry.COLUMN_CONTENT_BOOK  + " = ?",
+                                new String[]{bookData});
+                    } catch (Exception ex) {
+                        System.out.println("SQLexception");
+                        ex.printStackTrace();
+                    }
                     holder.bookmarkOption.setImageResource(R.drawable.ic_bookmark_en);
                     holder.bookmarked = false;
+                    Toast.makeText(mcontext, "Item is Removed", Toast.LENGTH_SHORT).show();
                 }
             }
         });

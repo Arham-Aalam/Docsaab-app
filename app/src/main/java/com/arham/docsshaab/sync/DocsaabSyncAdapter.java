@@ -6,18 +6,21 @@ import android.app.AuthenticationRequiredException;
 import android.app.DownloadManager;
 import android.app.VoiceInteractor;
 import android.content.AbstractThreadedSyncAdapter;
+import android.content.ContentProvider;
 import android.content.ContentProviderClient;
 import android.content.ContentResolver;
 import android.content.ContentValues;
 import android.content.Context;
 import android.content.SyncRequest;
 import android.content.SyncResult;
+import android.database.Cursor;
 import android.net.ParseException;
 import android.net.Uri;
 import android.nfc.Tag;
 import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
+import android.widget.Toast;
 
 import com.android.volley.AuthFailureError;
 import com.android.volley.Request;
@@ -52,24 +55,27 @@ import java.util.Map;
 
 public class DocsaabSyncAdapter extends AbstractThreadedSyncAdapter {
     public final String LOG_TAG = DocsaabSyncAdapter.class.getSimpleName();
+    static int syncCount = 1;
 
     // here 60 (seconds) * 180 = 3 hours
-    public static final int SYNC_INTERVAL = 60 * 180;
-    public static final int SYNC_FLEXTIME = SYNC_INTERVAL/3;
+    //public static final int SYNC_INTERVAL = 60 * 180;
+    public static final long SYNC_INTERVAL = (long)(60 * 61);
+    public static final long SYNC_FLEXTIME = SYNC_INTERVAL/3L;
     ContentResolver mContentResolver;
+
+    Context mContext;
 
     public DocsaabSyncAdapter(Context context, boolean autoInitialize) {
         super(context, autoInitialize);
 
+        mContext = context;
         mContentResolver = context.getContentResolver();
     }
 
     @Override
     public void onPerformSync(Account account, Bundle extras, String authority, ContentProviderClient provider, SyncResult syncResult) {
 
-        mContentResolver.delete(CategoryContract.CategoryEntry.CONTENT_URI, null, null);
-        mContentResolver.delete(CategoryContract.CategoryEntry.CONTENT_URI_2, null, null);
-        Log.d(LOG_TAG, "Starting sync");
+        Log.d(LOG_TAG, "Starting sync " + syncCount++);
         BufferedReader reader = null;
 
         HttpURLConnection urlConnection = null;
@@ -120,7 +126,6 @@ public class DocsaabSyncAdapter extends AbstractThreadedSyncAdapter {
                 makeSubRequest(idItr);
             }
 
-
         } catch (ParseException e) {
             Log.e("SyncException", "ParseException");
             syncResult.stats.numParseExceptions++;
@@ -158,6 +163,9 @@ public class DocsaabSyncAdapter extends AbstractThreadedSyncAdapter {
             if(!subObj.getBoolean("status")){
                 return;
             }
+            mContentResolver.delete(CategoryContract.CategoryEntry.CONTENT_URI_2, Integer.toString(id), null);
+            Log.d("Deletion info :", "deletion done for " + id);
+
             imageUrlPath = subObj.getString("image_url");
             JSONArray subArr = subObj.getJSONArray("result");
             String en_name = null, hi_name = null, imageName = null;
@@ -181,7 +189,6 @@ public class DocsaabSyncAdapter extends AbstractThreadedSyncAdapter {
                 mContentResolver.insert(CategoryContract.CategoryEntry.CONTENT_URI_2, subCateValues);
             }
             Log.d(LOG_TAG, "Sub Sync complete " + subArr.length() + " Records Inserted");
-
         }  catch (JSONException ex) {
             Log.e("JsonException: ", ex.getMessage());
         }
@@ -236,6 +243,34 @@ public class DocsaabSyncAdapter extends AbstractThreadedSyncAdapter {
             imagePath = cateObject.getString(IMAGE_URL);
             JSONArray cateArray = cateObject.getJSONArray(CAT_RESULTS);
 
+            int cnt = -1;
+            Cursor countCursor = mContentResolver.query(CategoryContract.CategoryEntry.CONTENT_URI, null, null, null, null);
+            if(null != countCursor)
+                cnt = countCursor.getCount();
+
+            if(cateArray.length() == cnt) {
+                Log.d("DB_COUNT : ", Integer.toString(cnt));
+                return  cateArray.length();
+            }
+
+            /*
+            int cnt = -1;
+            Cursor countCursor = mContentResolver.query(CategoryContract.CategoryEntry.CONTENT_URI, null, null, null, null);
+            if(null != countCursor)
+                cnt = countCursor.getCount();
+
+            if(cateArray.length() == cnt) {
+                Log.d("DB_COUNT : ", Integer.toString(cnt));
+                return  cateArray.length();
+            }
+
+            if(cnt != -1) {
+                if (mContentResolver.delete(CategoryContract.CategoryEntry.CONTENT_URI, null, null) == -1) {
+                    Log.d("Deletion ERROR : ", "Error in deletion");
+                }
+            }
+            */
+
             Log.d("Image Path", imagePath);
             int i = 0;
 
@@ -258,6 +293,7 @@ public class DocsaabSyncAdapter extends AbstractThreadedSyncAdapter {
                 mContentResolver.insert(CategoryContract.CategoryEntry.CONTENT_URI, cateValues);
             }
             Log.d(LOG_TAG, "Sync complete " + cateArray.length() + " Records Inserted");
+
             return i;
         } catch (JSONException e) {
             Log.e(LOG_TAG, e.getMessage(), e);
@@ -267,18 +303,24 @@ public class DocsaabSyncAdapter extends AbstractThreadedSyncAdapter {
         return 0;
     }
 
-    public static void configurePeriodicSync(Context context, int syncInterval, int flexTime) {
+    public static void configurePeriodicSync(Context context, long syncInterval, long flexTime) {
         Account account = getSyncAccount(context);
         String authority = "com.arham.docsshaab";
         if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
+            /*
             SyncRequest request = new SyncRequest.Builder().
                     syncPeriodic( syncInterval, flexTime).
                     setSyncAdapter(account, authority).
                     setExtras(new Bundle()).build();
-            ContentResolver.requestSync(request);
+                    ContentResolver.requestSync(request);
+            */
+            SyncRequest.Builder request = (new SyncRequest.Builder()).syncPeriodic(syncInterval, flexTime);
+            request.setSyncAdapter(account, authority);
+            request.setExtras(new Bundle());
+            ContentResolver.requestSync(request.build());
         } else {
-            //ContentResolver.addPeriodicSync(account, authority, new Bundle(), syncInterval);
-            ContentResolver.setSyncAutomatically(account, authority, true);
+            ContentResolver.addPeriodicSync(account, authority, new Bundle(), syncInterval);
+            //ContentResolver.setSyncAutomatically(account, authority, true);
         }
     }
 
@@ -315,5 +357,6 @@ public class DocsaabSyncAdapter extends AbstractThreadedSyncAdapter {
 
     public static void initializeSyncAdapter(Context context) {
         getSyncAccount(context);
+        syncImmediately(context);
     }
 }

@@ -61,14 +61,14 @@ public class CategoryProvider extends ContentProvider {
     @Nullable
     @Override
     public Cursor query(@NonNull Uri uri, @Nullable String[] projection, @Nullable String selection, @Nullable String[] selectionArgs, @Nullable String sortOrder) {
-        switch (sUriMatcher.match(uri)) {
-            case HEALTH_CATS:
-                return cDBHelper.getReadableDatabase().rawQuery( "SELECT * FROM "+ CategoryContract.CategoryEntry.TABLE_NAME +";", null);
-            case HEALTH_SUB_CATS:
-                return cDBHelper.getReadableDatabase().rawQuery( "SELECT * FROM "+ CategoryContract.CategoryEntry.TABLE_SUBCATE +" WHERE " + selection + "'" + selectionArgs[0] + "';", null);
-            case HEALTH_BOOKMARK:
-                return cDBHelper.getReadableDatabase().rawQuery("SELECT * FROM " + CategoryContract.CategoryEntry.TABLE_BOOKMARK + ";", null);
-        }
+            switch (sUriMatcher.match(uri)) {
+                case HEALTH_CATS:
+                    return cDBHelper.getReadableDatabase().rawQuery("SELECT * FROM " + CategoryContract.CategoryEntry.TABLE_NAME + ";", null);
+                case HEALTH_SUB_CATS:
+                    return cDBHelper.getReadableDatabase().rawQuery("SELECT * FROM " + CategoryContract.CategoryEntry.TABLE_SUBCATE + " WHERE " + selection + "'" + selectionArgs[0] + "';", null);
+                case HEALTH_BOOKMARK:
+                    return cDBHelper.getReadableDatabase().rawQuery("SELECT * FROM " + CategoryContract.CategoryEntry.TABLE_BOOKMARK + ";", null);
+            }
         return null;
     }
 
@@ -120,9 +120,11 @@ public class CategoryProvider extends ContentProvider {
     public int delete(@NonNull Uri uri, @Nullable String selection, @Nullable String[] selectionArgs) {
         switch (sUriMatcher.match(uri)) {
             case HEALTH_CATS:
-                return 0;
+                return deleteRow(uri, null, null, CategoryContract.CategoryEntry.TABLE_NAME);
             case HEALTH_SUB_CATS:
-                return 0;
+                return deleteRow(CategoryContract.CategoryEntry.CONTENT_URI_2,
+                        CategoryContract.CategoryEntry._ID  + " = ?",
+                        new String[]{selection}, CategoryContract.CategoryEntry.TABLE_SUBCATE);
             case HEALTH_BOOKMARK:
                 return deleteRow(uri, selection, selectionArgs, CategoryContract.CategoryEntry.TABLE_BOOKMARK);
             default:
@@ -152,4 +154,5 @@ public class CategoryProvider extends ContentProvider {
         getContext().getContentResolver().notifyChange(uri, null);
         return id;
     }
+
 }

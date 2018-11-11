@@ -25,6 +25,7 @@
             android:padding="10dp"
             android:textSize="25sp"
             android:textStyle="bold"
+            android:textColor="@color/white"
             />
         <android.support.v7.widget.RecyclerView
             android:id="@+id/bookmark_recycler_view"

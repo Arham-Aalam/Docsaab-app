@@ -51,7 +51,9 @@
         <provider
             android:name=".data.CategoryProvider"
             android:authorities="com.arham.docsshaab"
-            android:exported="false" />
+            android:exported="false"
+            android:syncable="true"
+            />
 
         <activity android:name=".MainActivity" />
         <activity android:name=".SubCateActivity" />

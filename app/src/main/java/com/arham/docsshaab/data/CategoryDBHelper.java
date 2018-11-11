@@ -47,9 +47,9 @@ public class CategoryDBHelper extends SQLiteOpenHelper {
 
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
-        db.execSQL("DROP TABLE IF EXISTS " + CategoryContract.CategoryEntry.TABLE_NAME);
-        db.execSQL("DROP TABLE IF EXISTS " + CategoryContract.CategoryEntry.TABLE_SUBCATE);
-        db.execSQL("DROP TABLE IF EXISTS " + CategoryContract.CategoryEntry.TABLE_BOOKMARK);
+        db.execSQL("DROP TABLE " + CategoryContract.CategoryEntry.TABLE_NAME);
+        db.execSQL("DROP TABLE " + CategoryContract.CategoryEntry.TABLE_SUBCATE);
+        db.execSQL("DROP TABLE " + CategoryContract.CategoryEntry.TABLE_BOOKMARK);
         onCreate(db);
     }
 
