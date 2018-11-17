@@ -2,6 +2,7 @@ package com.arham.docsshaab.sync;
 
 import android.accounts.Account;
 import android.accounts.AccountManager;
+import android.app.Activity;
 import android.app.AuthenticationRequiredException;
 import android.app.DownloadManager;
 import android.app.VoiceInteractor;
@@ -244,14 +245,11 @@ public class DocsaabSyncAdapter extends AbstractThreadedSyncAdapter {
             JSONArray cateArray = cateObject.getJSONArray(CAT_RESULTS);
 
             int cnt = -1;
-            Cursor countCursor = mContentResolver.query(CategoryContract.CategoryEntry.CONTENT_URI, null, null, null, null);
+            Cursor countCursor = null;
+            countCursor = mContentResolver.query(CategoryContract.CategoryEntry.CONTENT_URI, null, null, null, null);
             if(null != countCursor)
                 cnt = countCursor.getCount();
 
-            if(cateArray.length() == cnt) {
-                Log.d("DB_COUNT : ", Integer.toString(cnt));
-                return  cateArray.length();
-            }
 
             /*
             int cnt = -1;
@@ -357,6 +355,12 @@ public class DocsaabSyncAdapter extends AbstractThreadedSyncAdapter {
 
     public static void initializeSyncAdapter(Context context) {
         getSyncAccount(context);
-        syncImmediately(context);
+        final String CONTENT_UPDATE = "UPDATE_THE_CONTENT";
+        int i;
+        i = ((Activity)context).getPreferences(Context.MODE_PRIVATE).getInt(CONTENT_UPDATE, 3);
+        if(3 == i) {
+            syncImmediately(context);
+        }
+        ((Activity)context).getPreferences(Context.MODE_PRIVATE).edit().putInt(CONTENT_UPDATE, ++i%4).apply();
     }
 }

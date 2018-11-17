@@ -52,16 +52,20 @@
             android:name=".data.CategoryProvider"
             android:authorities="com.arham.docsshaab"
             android:exported="false"
-            android:syncable="true"
-            />
+            android:syncable="true" />
 
-        <activity android:name=".MainActivity" />
-        <activity android:name=".SubCateActivity" />
+        <activity android:name=".MainActivity"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".SubCateActivity"
+            android:screenOrientation="portrait"/>
         <activity
             android:name=".CateListActivity"
             android:screenOrientation="portrait" />
         <activity android:name=".DocDetailActivity" />
-        <activity android:name=".BookmarkActivity"></activity>
+        <activity android:name=".BookmarkActivity"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".AboutUsPageActivity"
+            android:screenOrientation="portrait"></activity>
     </application>
 
 </manifest>

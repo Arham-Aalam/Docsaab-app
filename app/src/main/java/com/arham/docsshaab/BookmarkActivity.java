@@ -2,6 +2,7 @@ package com.arham.docsshaab;
 
 import android.app.LoaderManager;
 import android.content.CursorLoader;
+import android.content.Intent;
 import android.content.Loader;
 import android.database.Cursor;
 import android.graphics.PorterDuff;
@@ -13,7 +14,10 @@ import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.Spinner;
+import android.widget.TextView;
 
 import com.arham.docsshaab.data.CategoryContract;
 
@@ -28,10 +32,18 @@ public class BookmarkActivity extends AppCompatActivity implements LoaderManager
     private static final int CATEGORY_LOADER = 0;
     BookmarkAdapter bookmarkAdapter;
 
+    Button emptyBtn;
+    ImageView emptyImg;
+    TextView emptyTxt;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_bookmark);
+
+        emptyBtn = (Button) findViewById(R.id.empty_button);
+        emptyImg = (ImageView) findViewById(R.id.empty_img);
+        emptyTxt = (TextView) findViewById(R.id.empty_txt);
 
         ActivityToolbar =  (Toolbar) findViewById(R.id.toolbar);
         ActivitySpinner = (Spinner) findViewById(R.id.spinner);
@@ -78,6 +90,13 @@ public class BookmarkActivity extends AppCompatActivity implements LoaderManager
                 finish();
             }
         });
+
+        emptyBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(getApplicationContext(), MainActivity.class).setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP));
+            }
+        });
     }
 
     @Override
@@ -100,6 +119,16 @@ public class BookmarkActivity extends AppCompatActivity implements LoaderManager
     @Override
     public void onLoadFinished(Loader<Cursor> loader, Cursor data) {
         bookmarkAdapter.swapCursor(data);
+
+        if(bookmarkAdapter.getItemCount() > 0) {
+            emptyTxt.setVisibility(View.GONE);
+            emptyBtn.setVisibility(View.GONE);
+            emptyImg.setVisibility(View.GONE);
+        } else {
+            emptyTxt.setVisibility(View.VISIBLE);
+            emptyBtn.setVisibility(View.VISIBLE);
+            emptyImg.setVisibility(View.VISIBLE);
+        }
     }
 
     @Override

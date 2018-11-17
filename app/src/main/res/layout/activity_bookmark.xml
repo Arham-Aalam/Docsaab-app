@@ -38,5 +38,36 @@
             tools:layout_editor_absoluteX="8dp"
             android:scrollbarStyle="outsideInset"
             />
+        <ImageView
+            android:id="@+id/empty_img"
+            android:layout_width="150dp"
+            android:layout_height="150dp"
+            android:src="@drawable/find"
+            android:layout_marginTop="50dp"
+            android:layout_centerHorizontal="true"
+            android:layout_below="@id/list_heading"
+            />
+        <TextView
+            android:id="@+id/empty_txt"
+            android:layout_width="match_parent"
+            android:layout_height="90dp"
+            android:gravity="center"
+            android:visibility="visible"
+            android:text="@string/no_data_available"
+            android:textStyle="bold"
+            android:layout_centerHorizontal="true"
+            android:layout_below="@id/empty_img"
+            android:layout_marginTop="20dp"
+            android:textSize="20sp"
+            />
+        <Button
+            android:id="@+id/empty_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/empty_button_content"
+            android:background="@color/transparent"
+            android:layout_below="@id/empty_txt"
+            android:layout_centerHorizontal="true"
+            />
     </RelativeLayout>
 </RelativeLayout>

@@ -242,6 +242,10 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
                 drawer.closeDrawer(Gravity.LEFT);
                 startActivity(new Intent(getApplicationContext(),BookmarkActivity.class).setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP));
                 break;
+            case R.id.nav_about_us:
+                drawer.closeDrawer(Gravity.LEFT);
+                startActivity(new Intent(getApplicationContext(), AboutUsPageActivity.class).setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP));
+                break;
         }
         return true;
     }

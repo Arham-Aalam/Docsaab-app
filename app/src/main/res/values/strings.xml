@@ -13,4 +13,7 @@
     </string-array>
     <string name="Title">Docsaab Title</string>
     <string name="shareTitle">Share App Using</string>
+    <string name="copy_right" translatable="false">Copyrights © %1$d</string>
+    <string name="no_data_available">Looks like you have no Bookmark!!!</string>
+    <string name="empty_button_content">Tap to read health tips</string>
 </resources>
