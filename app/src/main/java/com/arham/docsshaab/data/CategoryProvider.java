@@ -120,7 +120,7 @@ public class CategoryProvider extends ContentProvider {
     public int delete(@NonNull Uri uri, @Nullable String selection, @Nullable String[] selectionArgs) {
         switch (sUriMatcher.match(uri)) {
             case HEALTH_CATS:
-                return deleteRow(uri, null, null, CategoryContract.CategoryEntry.TABLE_NAME);
+                return deleteRow(uri, selection, selectionArgs, CategoryContract.CategoryEntry.TABLE_NAME);
             case HEALTH_SUB_CATS:
                 return deleteRow(CategoryContract.CategoryEntry.CONTENT_URI_2,
                         CategoryContract.CategoryEntry._ID  + " = ?",
@@ -139,7 +139,7 @@ public class CategoryProvider extends ContentProvider {
 
     private int deleteRow(Uri uri, String selection, String[] selectionArgs, final String TABLE_NAME) {
         SQLiteDatabase database = cDBHelper.getWritableDatabase();
-        int id = -1;
+        int id = -1, cnt;
 
         try {
             id = database.delete(TABLE_NAME, selection, selectionArgs);
@@ -152,6 +152,7 @@ public class CategoryProvider extends ContentProvider {
             return -1;
         }
         getContext().getContentResolver().notifyChange(uri, null);
+
         return id;
     }
 

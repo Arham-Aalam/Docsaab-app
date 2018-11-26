@@ -54,18 +54,25 @@
             android:exported="false"
             android:syncable="true" />
 
-        <activity android:name=".MainActivity"
-            android:screenOrientation="portrait"/>
-        <activity android:name=".SubCateActivity"
-            android:screenOrientation="portrait"/>
+        <activity
+            android:name=".MainActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".SubCateActivity"
+            android:screenOrientation="portrait" />
         <activity
             android:name=".CateListActivity"
             android:screenOrientation="portrait" />
         <activity android:name=".DocDetailActivity" />
-        <activity android:name=".BookmarkActivity"
-            android:screenOrientation="portrait"/>
-        <activity android:name=".AboutUsPageActivity"
-            android:screenOrientation="portrait"></activity>
+        <activity
+            android:name=".BookmarkActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".AboutUsPageActivity"
+            android:screenOrientation="portrait" />
+        <activity android:name=".WellComeActivity"
+            android:screenOrientation="portrait"
+            ></activity>
     </application>
 
 </manifest>

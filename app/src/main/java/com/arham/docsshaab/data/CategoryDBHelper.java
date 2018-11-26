@@ -23,7 +23,7 @@ public class CategoryDBHelper extends SQLiteOpenHelper {
     @Override
     public void onCreate(SQLiteDatabase db) {
         final String SQL_CREATE_HEALTH_CATEGORY_TABLE = "CREATE TABLE " + CategoryContract.CategoryEntry.TABLE_NAME + " ( " +
-                CategoryContract.CategoryEntry._ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
+                CategoryContract.CategoryEntry._ID + " INTEGER PRIMARY KEY, " +
                 CategoryContract.CategoryEntry.COLUMN_IMAGE_PATH + " TEXT NOT NULL, " +
                 CategoryContract.CategoryEntry.COLUMN_CONTENT_EN + " TEXT NOT NULL UNIQUE, " +
                 CategoryContract.CategoryEntry.COLUMN_CONTENT_HI + " TEXT NOT NULL UNIQUE );";

@@ -182,7 +182,7 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
     }
 
     public void firstTimeUser() {
-        String key = "FIRST_TIME_USER";
+        String key = "FIRST_TIME_DOCSAAB_USER";
         if(getPreferences(Context.MODE_PRIVATE).getBoolean(key, true)) {
             /** first time dialog box*/
 

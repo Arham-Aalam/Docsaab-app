@@ -16,4 +16,7 @@
     <string name="copy_right" translatable="false">Copyrights © %1$d</string>
     <string name="no_data_available">Looks like you have no Bookmark!!!</string>
     <string name="empty_button_content">Tap to read health tips</string>
+    <string name="welcomeEnglish">A home remedy app in regional languages.</string>
+    <string name="welcomeHindi">क्षेत्रीय भाषाओं में एक घरेलू उपचार ऐप। डॉक्साब में आपका स्वागत है|</string>
+    <string name="wellComeText">Welcome to DocSaab</string>
 </resources>

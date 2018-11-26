@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.arham.docsshaab.WellComeActivity"
+    android:background="@drawable/gradient_splash"
+    >
+
+    <ImageView
+        android:id="@+id/img_welcome"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@mipmap/docsaab_ic"
+        android:layout_centerHorizontal="true"
+        />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:text="@string/wellComeText"
+        android:id="@+id/txt_slide_up"
+        android:layout_below="@id/img_welcome"
+        android:layout_marginTop="10dp"
+        android:layout_centerHorizontal="true"
+        android:textStyle="bold"
+        android:gravity="center"
+        android:textSize="30sp"
+        />
+    <TextView
+        android:id="@+id/welcomeDesc1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/welcomeEnglish"
+        android:layout_below="@id/txt_slide_up"
+        android:padding="20dp"
+        android:textSize="18sp"
+        />
+    <TextView
+        android:id="@+id/welcomeDesc2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/welcomeHindi"
+        android:layout_below="@id/welcomeDesc1"
+        android:padding="20dp"
+        android:textSize="18sp"
+        />
+
+    <Button
+        android:id="@+id/welcome_btn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Got it!!"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentRight="true"
+        android:layout_margin="20dp"
+        android:textSize="17sp"
+        android:background="@color/transparent"
+        />
+
+</RelativeLayout>

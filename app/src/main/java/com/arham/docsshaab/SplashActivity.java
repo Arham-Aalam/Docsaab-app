@@ -1,5 +1,6 @@
 package com.arham.docsshaab;
 
+import android.content.Context;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -33,14 +34,24 @@ public class SplashActivity extends AppCompatActivity {
         findViewById(R.id.splashImage).startAnimation(slideUpAnimation);
         */
 
-        Thread time = new Thread() {
+
+            Thread time = new Thread() {
             @Override
             public void run() {
                 try {
                     sleep(3000);
-                    Intent intent = new Intent(getApplicationContext(), MainActivity.class);
-                    startActivity(intent);
-                    finish();
+                    String key = "FIRST_TIME_DOCSAAB_WELCOME";
+                    if(getPreferences(Context.MODE_PRIVATE).getBoolean(key, true)) {
+                        getPreferences(Context.MODE_PRIVATE).edit().putBoolean(key, false).apply();
+                        Intent intent = new Intent(getApplicationContext(), WellComeActivity.class);
+                        startActivity(intent);
+                        finish();
+                    } else {
+                        Intent intent = new Intent(getApplicationContext(), MainActivity.class);
+                        startActivity(intent);
+                        finish();
+                    }
+
                     super.run();
                 } catch (InterruptedException e) {
                     e.printStackTrace();

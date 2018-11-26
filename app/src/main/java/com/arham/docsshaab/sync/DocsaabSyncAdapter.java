@@ -244,30 +244,9 @@ public class DocsaabSyncAdapter extends AbstractThreadedSyncAdapter {
             imagePath = cateObject.getString(IMAGE_URL);
             JSONArray cateArray = cateObject.getJSONArray(CAT_RESULTS);
 
-            int cnt = -1;
-            Cursor countCursor = null;
-            countCursor = mContentResolver.query(CategoryContract.CategoryEntry.CONTENT_URI, null, null, null, null);
-            if(null != countCursor)
-                cnt = countCursor.getCount();
 
+            mContentResolver.delete(CategoryContract.CategoryEntry.CONTENT_URI, null, null);
 
-            /*
-            int cnt = -1;
-            Cursor countCursor = mContentResolver.query(CategoryContract.CategoryEntry.CONTENT_URI, null, null, null, null);
-            if(null != countCursor)
-                cnt = countCursor.getCount();
-
-            if(cateArray.length() == cnt) {
-                Log.d("DB_COUNT : ", Integer.toString(cnt));
-                return  cateArray.length();
-            }
-
-            if(cnt != -1) {
-                if (mContentResolver.delete(CategoryContract.CategoryEntry.CONTENT_URI, null, null) == -1) {
-                    Log.d("Deletion ERROR : ", "Error in deletion");
-                }
-            }
-            */
 
             Log.d("Image Path", imagePath);
             int i = 0;
@@ -284,6 +263,7 @@ public class DocsaabSyncAdapter extends AbstractThreadedSyncAdapter {
 
                 ContentValues cateValues = new ContentValues();
 
+                cateValues.put(CategoryContract.CategoryEntry._ID, i+1);
                 cateValues.put(CategoryContract.CategoryEntry.COLUMN_IMAGE_PATH, imagePath + imageName);
                 cateValues.put(CategoryContract.CategoryEntry.COLUMN_CONTENT_EN, en_name);
                 cateValues.put(CategoryContract.CategoryEntry.COLUMN_CONTENT_HI, hi_name);
@@ -355,12 +335,12 @@ public class DocsaabSyncAdapter extends AbstractThreadedSyncAdapter {
 
     public static void initializeSyncAdapter(Context context) {
         getSyncAccount(context);
-        final String CONTENT_UPDATE = "UPDATE_THE_CONTENT";
+        final String CONTENT_UPDATE = "UPDATE_THE_CONTENT_DOCSAAB";
         int i;
-        i = ((Activity)context).getPreferences(Context.MODE_PRIVATE).getInt(CONTENT_UPDATE, 3);
+        i = ((Activity)context).getPreferences(Context.MODE_PRIVATE).getInt(CONTENT_UPDATE, 1);
         if(3 == i) {
             syncImmediately(context);
         }
-        ((Activity)context).getPreferences(Context.MODE_PRIVATE).edit().putInt(CONTENT_UPDATE, ++i%4).apply();
+        ((Activity)context).getPreferences(Context.MODE_PRIVATE).edit().putInt(CONTENT_UPDATE, (++i)%4).apply();
     }
 }
