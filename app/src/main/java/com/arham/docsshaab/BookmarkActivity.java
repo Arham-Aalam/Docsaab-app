@@ -94,7 +94,9 @@ public class BookmarkActivity extends AppCompatActivity implements LoaderManager
         emptyBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(getApplicationContext(), MainActivity.class).setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP));
+                Intent i = new Intent(getApplicationContext(), MainActivity.class);
+                i.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                startActivity(i);
             }
         });
     }

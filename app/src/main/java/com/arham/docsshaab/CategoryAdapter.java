@@ -125,13 +125,6 @@ public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.ViewHo
         if(cursor != null) {
             this.notifyDataSetChanged();
         }
-        Cursor democursor = cursor;
-        if(democursor.moveToFirst()) {
-            do {
-                int tt = democursor.getInt(0);
-                System.out.println("Cursor_Primary " + tt);
-            } while (democursor.moveToNext());
-        }
         return oldCursor;
     }
 
