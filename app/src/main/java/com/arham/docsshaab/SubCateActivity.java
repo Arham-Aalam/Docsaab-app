@@ -41,7 +41,7 @@ public class SubCateActivity extends AppCompatActivity implements LoaderManager.
     Toolbar ActivityToolbar;
     Spinner ActivitySpinner;
     ArrayAdapter<CharSequence> ActivityAdapter;
-    TextView titleText;
+    //TextView titleText;
 
     private RecyclerView recyclerView;
     SubCategoryAdapter subCategoryAdapter;
@@ -64,7 +64,7 @@ public class SubCateActivity extends AppCompatActivity implements LoaderManager.
 
         ActivityToolbar =  (Toolbar) findViewById(R.id.toolbar);
         ActivitySpinner = (Spinner) findViewById(R.id.spinner);
-        titleText = (TextView) findViewById(R.id.headingTxt);
+        //titleText = (TextView) findViewById(R.id.headingTxt);
         drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         navigationView = (NavigationView)findViewById(R.id.nav_view);
         contentView = findViewById(R.id.main_content);
@@ -89,7 +89,7 @@ public class SubCateActivity extends AppCompatActivity implements LoaderManager.
                 ActivitySpinner.setSelection(++pos%2);
             }
 
-            titleText.setText(titleName);
+           // titleText.setText(titleName);
         }
         //remove this if spinner is needed
         ActivitySpinner.setVisibility(View.GONE);
